@@ -2,6 +2,7 @@
 #include "tictactoe.h"
 #include <string>
 #include <locale>
+#include <iostream>
 
 /**
  *
@@ -21,17 +22,17 @@ class TicTacToe {
 			//check vertical wins
 			bool lineFormed = true;
 			for (int j = 1; j < SIDE_LENGTH; j++) {
-				if (boardState.at(i) != boardState.at(i + j * SIDE_LENGTH)) {
+				if (boardState[i] != boardState[i + j * SIDE_LENGTH]) {
 					lineFormed = false;
 					break;
 				}
 			}
 
 			if (lineFormed) {
-				if (boardState.at(i) == 'x') {
+				if (boardState[i] == 'x') {
 					xoLines[0]++;
 				}
-				else if (boardState.at(i) == 'o') {
+				else if (boardState[i] == 'o') {
 					xoLines[1]++;
 				}
 			}
@@ -51,17 +52,17 @@ class TicTacToe {
 			//check horizontal wins
 			bool lineFormed = true;
 			for (int j = 1; j < SIDE_LENGTH; j++) {
-				if (boardState.at(i) != boardState.at(i + j)) {
+				if (boardState[i] != boardState[i+j]) {
 					lineFormed = false;
 					break;
 				}
 			}
 
 			if (lineFormed) {
-				if (boardState.at(i) == 'x') {
+				if (boardState[i] == 'x') {
 					xoLines[0]++;
 				}
-				else if (boardState.at(i) == 'o') {
+				else if (boardState[i] == 'o') {
 					xoLines[1]++;
 				}
 			}
@@ -117,12 +118,12 @@ class TicTacToe {
 		* @return number of Xs and Os
 		*/
 	static int * countXO(std::string boardState) {
-		int count[10];
+		int count[2];
 		for (unsigned int i = 0; i < boardState.size(); i++) {
-			if (boardState.at(i) == 'x') {
+			if (boardState[i] == 'x') {
 				count[0]++;
 			}
-			else if (boardState.at(i) == 'o') {
+			else if (boardState[i] == 'o') {
 				count[1]++;
 			}
 		}
@@ -154,11 +155,11 @@ class TicTacToe {
 		if (boardString.empty() || boardString.size() != SIDE_LENGTH * SIDE_LENGTH) {
 			return TicTacToeState::InvalidInput;
 		}
-		
-		//for (int i = 0; boardString[i] != '\0'; i++) {
-			//boardString[i] = tolower(boardString[i]);
-		//}
-
+		std::cout << boardString << "\n";
+		for (int i = 0; boardString[i] != '\0'; i++) {
+			boardString[i] = tolower(boardString[i]);
+		}
+		std::cout << boardString;
 		int*  xoCounts = countXO(boardString);
 		int* xoLines = countLines(boardString);
 		return findWinner(xoCounts, xoLines);

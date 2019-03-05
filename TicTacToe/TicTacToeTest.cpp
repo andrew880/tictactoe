@@ -17,29 +17,29 @@ using namespace std;
 
 TEST_CASE("tictactoe test") {
 	SECTION("invalid input") {
-		CHECK(InvalidInput == TicTacToe::evaluateBoard("Oc...XX.X.."));
-		CHECK(InvalidInput == TicTacToe::evaluateBoard("O...XX.X."));
+		CHECK(TicTacToeState(InvalidInput) == TicTacToe::evaluateBoard("O...XX.X.."));
+		CHECK(TicTacToeState(InvalidInput) == TicTacToe::evaluateBoard("O...XX.X"));
 	}
 	SECTION("testRandomFilters") {
-		CHECK(NoWinner == TicTacToe::evaluateBoard("O32OXtXu`"));
-		CHECK(NoWinner == TicTacToe::evaluateBoard("OO2cXtXuX"));
-		CHECK(NoWinner == TicTacToe::evaluateBoard("232cftXu`"));
+		CHECK(TicTacToeState(NoWinner) == TicTacToe::evaluateBoard("O32OXtXu`"));
+		CHECK(TicTacToeState(NoWinner) == TicTacToe::evaluateBoard("OO2cXtXuX"));
+		CHECK(TicTacToeState(NoWinner) == TicTacToe::evaluateBoard("232cftXu`"));
 	}
 	SECTION("noWinner") {
-		CHECK(NoWinner == TicTacToe::evaluateBoard("O...X.X.."));
-		CHECK(NoWinner == TicTacToe::evaluateBoard("O...X.X.O"));
+		CHECK(TicTacToeState(NoWinner) == TicTacToe::evaluateBoard("O...X.X.."));
+		CHECK(TicTacToeState(NoWinner) == TicTacToe::evaluateBoard("O...X.X.O"));
 	}
 	SECTION("horizontal x win") {
-		CHECK(Xwins == TicTacToe::evaluateBoard("OX.XXXO.O"));
-		CHECK(Xwins == TicTacToe::evaluateBoard("XXXXO.OO."));
+		CHECK(TicTacToeState(Xwins) == TicTacToe::evaluateBoard("OX.XXXO.O"));
+		CHECK(TicTacToeState(Xwins) == TicTacToe::evaluateBoard("XXXXO.OO."));
 	}
 	SECTION("vertical x win") {
-		CHECK(Xwins == TicTacToe::evaluateBoard("OX..XOXXO"));
-		CHECK(Xwins == TicTacToe::evaluateBoard("X.OX.OX.."));
+		CHECK(TicTacToeState(Xwins) == TicTacToe::evaluateBoard("OX..XOXXO"));
+		CHECK(TicTacToeState(Xwins) == TicTacToe::evaluateBoard("X.OX.OX.."));
 	}
 	SECTION("cross x win") {
-		CHECK(Xwins == TicTacToe::evaluateBoard("XO..XO..X"));
-		CHECK(Xwins == TicTacToe::evaluateBoard("..X.XOX.O"));
+		CHECK(TicTacToeState(Xwins) == TicTacToe::evaluateBoard("XO..XO..X"));
+		CHECK(TicTacToeState(Xwins) == TicTacToe::evaluateBoard("..X.XOX.O"));
 	}
 	SECTION("horizontal o win") {
 		CHECK(Owins == TicTacToe::evaluateBoard("OXX.XXOOO"));
@@ -53,19 +53,17 @@ TEST_CASE("tictactoe test") {
 		CHECK(Owins == TicTacToe::evaluateBoard("O.XXOX..O"));
 		CHECK(Owins == TicTacToe::evaluateBoard(".XO.OXO.X"));
 	}
-	/*
-		//check unreachable state due to invalid amount of X and O
-		assertEquals(Evaluation.UnreachableState, TicTacToe.evaluateBoard("O.X.X.X.."));
-		assertEquals(Evaluation.UnreachableState, TicTacToe.evaluateBoard("O.O.X...."));
-		assertEquals(Evaluation.UnreachableState, TicTacToe.evaluateBoard("O.OX.O.O."));
-		assertEquals(Evaluation.UnreachableState, TicTacToe.evaluateBoard("OOOXX..XX"));
-		assertEquals(Evaluation.UnreachableState, TicTacToe.evaluateBoard("OO.O..XXX"));
-
-		//check unreachable state due to multiple winners
-		assertEquals(Evaluation.UnreachableState, TicTacToe.evaluateBoard("OOO.O.XXO"));
-		assertEquals(Evaluation.UnreachableState, TicTacToe.evaluateBoard("OOX.X.XXX"));
-		assertEquals(Evaluation.UnreachableState, TicTacToe.evaluateBoard("OOO...XXX"));
-		assertEquals(Evaluation.UnreachableState, TicTacToe.evaluateBoard("OOOOOOXXX"));
+	SECTION("unreachable state due to invalid amount of X and O") {
+		CHECK(UnreachableState == TicTacToe::evaluateBoard("O.X.X.X.."));
+		CHECK(UnreachableState== TicTacToe::evaluateBoard("O.O.X...."));
+		CHECK(UnreachableState == TicTacToe::evaluateBoard("O.OX.O.O."));
+		CHECK(UnreachableState == TicTacToe::evaluateBoard("OOOXX..XX"));
+		CHECK(UnreachableState == TicTacToe::evaluateBoard("OO.O..XXX"));
 	}
-	*/
+	SECTION("unreachable state due to multiple winners") {
+		CHECK(UnreachableState == TicTacToe::evaluateBoard("OOO.O.XXO"));
+		CHECK(UnreachableState == TicTacToe::evaluateBoard("OOX.X.XXX"));
+		CHECK(UnreachableState == TicTacToe::evaluateBoard("OOO...XXX"));
+		CHECK(UnreachableState == TicTacToe::evaluateBoard("OOOOOOXXX"));
+	}
 }
