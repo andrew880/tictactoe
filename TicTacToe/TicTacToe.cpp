@@ -10,12 +10,13 @@
 class TicTacToe {
 	static const int SIDE_LENGTH = 3;
 	static const int NUM_OF_PLAYER = 2;
+
 	/**
-		* check vertical lines made by Xs and Os
-		*
-		* @param boardState state of the board
-		* @return number of vertical lines made by Xs and Os
-		*/
+	* check vertical lines made by Xs and Os
+	*
+	* @param boardState state of the board
+	* @return number of vertical lines made by Xs and Os
+	*/
 	static int * checkVertiLines(std::string boardState) {
 		int * xoLines = new int[NUM_OF_PLAYER];
 		for (int i = 0; i < SIDE_LENGTH; i++) {
@@ -23,12 +24,12 @@ class TicTacToe {
 			if (boardState[i] == boardState[i + 3] && boardState[i] == boardState[i + 6]) {
 				if (boardState[i] == 'x') {
 					xoLines[0] = xoLines[0] + 1;
-				}
-				else if (boardState[i] == 'o') {
+				} else if (boardState[i] == 'o') {
 					xoLines[1] = xoLines[1] + 1;
 				}
 			}
 		}
+
 		return xoLines;
 	}
 
@@ -45,12 +46,12 @@ class TicTacToe {
 			if (boardState[i] == boardState[i + 1] && boardState[i] == boardState[i + 2]) {
 				if (boardState[i] == 'x') {
 					xoLines[0] = xoLines[0] + 1;
-				}
-				else if (boardState[i] == 'o') {
+				} else if (boardState[i] == 'o') {
 					xoLines[1] = xoLines[1] + 1;
 				}
 			}
 		}
+
 		return xoLines;
 	}
 
@@ -62,18 +63,20 @@ class TicTacToe {
 		*/
 	static int * checkCrossLines(std::string boardState) {
 		int * xoLines = new int[NUM_OF_PLAYER];
-		bool left = false, right = false;
 		if (boardState[0] == 'o' && boardState[4] == 'o' && boardState[8] == 'o') {
-			xoLines[1]+=1;
+			xoLines[1] += 1;
 		}
+
 		if (boardState[2] == 'o' && boardState[4] == 'o' && boardState[6] == 'o') {
-			xoLines[1]+=1;
+			xoLines[1] += 1;
 		}
+
 		if (boardState[0] == 'x' && boardState[4] == 'x' && boardState[8] == 'x') {
-			xoLines[0]+=1;
+			xoLines[0] += 1;
 		}
+
 		if (boardState[2] == 'x' && boardState[4] == 'x' && boardState[6] == 'x') {
-			xoLines[0]+=1;
+			xoLines[0] += 1;
 		}
 		
 		return xoLines;
@@ -84,14 +87,11 @@ class TicTacToe {
 			int xLines = xoLines[0], oLines = xoLines[1];
 			if (oLines == 0 && xLines == 1 && xCount == oCount + 1) {
 				return TicTacToeState::Xwins;
-			}
-			else if (oLines == 1 && xLines == 0 && xCount == oCount) {
+			} else if (oLines == 1 && xLines == 0 && xCount ==  oCount) {
 				return TicTacToeState::Owins;
-			}
-			else if (oLines == 0 && xLines == 0 && (xCount == oCount || xCount == oCount + 1)) {
+			} else if (oLines == 0 && xLines == 0 && (xCount == oCount || xCount == oCount + 1)) {
 				return TicTacToeState::NoWinner;
-			}
-			else {
+			} else {
 				return TicTacToeState::UnreachableState;
 			}
 		}
@@ -102,7 +102,7 @@ class TicTacToe {
 		* @return number of Xs and Os
 		*/
 	static int * countXO(std::string boardState) {
-		int* count = new int[2];
+		int* count = new int[NUM_OF_PLAYER];
 		for (unsigned int i = 0; i < SIDE_LENGTH * SIDE_LENGTH; i++) {
 			if (boardState[i] == 'x') {
 				count[0]+=1;
@@ -125,8 +125,8 @@ class TicTacToe {
 		int * verLine = checkVertiLines(boardState);
 		int * horiLine = checkHoriLines(boardState);
 		int * crossLine = checkCrossLines(boardState);
-		xoLines[0] += verLine[0] +horiLine[0] + crossLine[0];
-		xoLines[1] += verLine[1] +horiLine[1] + crossLine[1];
+		xoLines[0] += verLine[0] + horiLine[0] + crossLine[0];
+		xoLines[1] += verLine[1] + horiLine[1] + crossLine[1];
 		return xoLines;
 	}
 		/**
@@ -144,6 +144,7 @@ class TicTacToe {
 			boardString= tolower(boardString[i]);
 		}
 
+		countLines(boardString);
 		return findWinner(countXO(boardString), countLines(boardString));
 	}
 };
