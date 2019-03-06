@@ -101,14 +101,15 @@ class TicTacToe {
 		* @param boardState state of the board
 		* @return number of Xs and Os
 		*/
-	static int * countXO(std::string boardState) {
-		int* count = new int[NUM_OF_PLAYER];
+	public: static int * countXO(std::string boardState) {
+		int count[2] = {0};
 		for (unsigned int i = 0; i < SIDE_LENGTH * SIDE_LENGTH; i++) {
+			std::cout << count[0] << " " << count[1] << "\n";
 			if (boardState[i] == 'x') {
-				count[0]+=1;
+				count[0] += 1;
 			}
 			else if (boardState[i] == 'o') {
-				count[1]+=1;
+				count[1] += 1;
 			}
 		}
 		return count;
@@ -139,12 +140,13 @@ class TicTacToe {
 		if (boardString.size() != SIDE_LENGTH * SIDE_LENGTH) {
 			return TicTacToeState::InvalidInput;
 		}
-
-		for (int i = 0; boardString[i] != '\0'; i++) {
-			boardString= tolower(boardString[i]);
+		
+		std::locale loc;
+		for (int i = 0; i < SIDE_LENGTH * SIDE_LENGTH; i++) {
+			boardString[i] = std::tolower(boardString[i], loc);
 		}
+		std::cout << boardString;
 
-		countLines(boardString);
 		return findWinner(countXO(boardString), countLines(boardString));
 	}
 };
